@@ -3,5 +3,12 @@
         "vector": "cpp",
         "iostream": "cpp",
         "algorithm": "cpp"
-    }
+    },
+    "code-runner.executorMap": {
+        "cpp": "cd \"$dir\" && /opt/homebrew/bin/g++-15 -std=c++17 \"$fileName\" -o \"$fileNameWithoutExt\" && \"$dir/$fileNameWithoutExt\""
+  },
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.clearPreviousOutput": true
+
 }
