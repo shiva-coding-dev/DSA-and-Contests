@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
-string add(string a,string b){
+
+string multiplySingleDigits(string x , string y){
+    return to_string((x[0]-'0')*(y[0]-'0'));
+}
+
+string addTwoString(string a , string b){
     string result = "";
     int carry = 0;
     int i = a.size() - 1, j = b.size() - 1;
@@ -14,10 +19,9 @@ string add(string a,string b){
     }
     reverse(result.begin(), result.end());
     return result;
+
 }
-string singleMul(string x,string y){
-    return to_string((x[0]-'0')*(y[0]-'0'));
-}
+
 string shift(string a,int v){
     while(v>0){
         a = a + "0";
@@ -35,7 +39,7 @@ string karatsuba(string x,string y){
     int lenx = x.size();
     int leny = y.size();
     if(lenx==1 && leny==1){
-        return singleMul(x,y);
+        return multiplySingleDigits(x,y);
     }
     int n = max(lenx, leny);
     if(n%2==1){
@@ -57,11 +61,10 @@ string karatsuba(string x,string y){
     string bd = karatsuba(b,d);
     string ad = karatsuba(a,d);
     string bc = karatsuba(b,c);
-    return add(add(shift(ac,n),shift(add(ad,bc),n/2)),bd);
+    return addTwoString(addTwoString(shift(ac,n),shift(addTwoString(ad,bc),n/2)),bd);
 }
 
-
-signed main(){
+signed main() {
     cout<<"Enter first number - ";
     string x,y;
     cin>>x;
@@ -71,5 +74,5 @@ signed main(){
     while(ans.size()>1 && ans[0]=='0'){
         ans.erase(ans.begin());
     }
-    cout<<"Multiplication is "<<ans<<"\n";
+    cout<<"Answer = "<<ans<<"\n";
 }
