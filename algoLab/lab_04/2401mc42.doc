@@ -1,0 +1,104 @@
+Task 1 for LAB 04 
+
+________________________ Starts here ________________________
+
+#include <bits/stdc++.h>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    ifstream input("./Marks.txt");
+    if (!input.is_open()) {
+        cerr << "Error: Unable to open file." << endl;
+        return 1;
+    }
+    vector<pair<string,int>> stud;
+    int sr;
+    string roll_no;
+    int marks;
+    while (input >> sr >> roll_no >> marks) {
+        stud.push_back(make_pair(roll_no,marks));
+    }
+    int n = stud.size();
+    int MAX_MARKS = 100;
+    vector<int> map(MAX_MARKS + 1, 0);
+    for(auto s : stud){
+        map[s.second]++;
+    }
+    int medianPos=(n+1)/2,sum = 0, median = 0;
+
+    for (int i = 0; i <= MAX_MARKS; i++) {
+        sum += map[i];
+        if (sum >= medianPos) {
+            median = i;
+            break;
+        }
+    }
+    int diff_max = 0;
+    for (auto s : stud) {
+        diff_max = max(diff_max, abs(s.second - median));
+    }
+
+    vector<vector<pair<string,int>>> buckets(diff_max + 1);
+    for (auto s : stud) {
+        int diff = abs(s.second - median);
+        buckets[diff].push_back(s);
+    }
+    for (int d = 0; d <= diff_max; d++) {
+        for (auto &s : buckets[d]) {
+            cout << s.first << " " << s.second << " Deviation - "<< abs(s.second-median) << "\n";
+        }
+    }
+    return 0;
+}
+
+
+
+________________________ Ends Here ________________________
+
+Task 2 for LAB 04 
+
+________________________ Starts Here ________________________
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void greedy(int n , vector<int> v , vector<int> w , int cap){
+    vector<pair< double, int >> p(n);
+    for(int i =0 ; i< n ; i++){
+        p[i].first = (double)v[i]/w[i];
+        p[i].second = i;
+    }
+    sort(p.rbegin() , p.rend());
+    double result = 0.0;
+    for(int i =0;i <n ;i++){
+        if(cap == 0)break;
+        int idx = p[i].second;
+        if(w[idx]<=cap){
+            result = result+ v[idx];
+            cap = cap - w[idx];
+
+        }else{
+            result = result+ (double)p[i].first * cap;
+            cap = 0;
+        }
+    }
+    cout<<fixed<<setprecision(2)<<result<<endl;
+}
+
+int main() {
+    int n ;
+    cin>>n;
+    vector<int> v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+    }
+    vector<int> w(n);
+    for(int i =0; i< n ; i++)cin>>w[i];
+    int c ;
+    cin>>c;
+    greedy(n , v , w , c);
+    return 0;
+}
+
+________________________ Ends here ________________________
